@@ -1,5 +1,12 @@
 const projects = [
   {
+    title: 'Uncle Warren Says',
+    description: 'Stock recommendation tool based on Warren Buffett\'s traditional value investing metrics. Screens for P/E < 35, EPS growth > 10%, and strong ROE to identify quality investments.',
+    tags: ['Python', 'Finance', 'Value Investing', 'Data Analytics'],
+    link: 'https://github.com/jagjothbhullar/uncle-warren-says',
+    status: 'Live'
+  },
+  {
     title: 'NHL Player Value Analysis',
     description: 'Machine learning model that identifies undervalued and overvalued NHL players by comparing performance metrics to contract value. Built to support hockey operations decision-making at the San Jose Sharks.',
     tags: ['Python', 'Machine Learning', 'Data Analytics', 'NHL API'],
