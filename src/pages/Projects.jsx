@@ -1,19 +1,18 @@
 const projects = [
   {
+    title: 'NHL Player Value Analysis',
+    description: 'Machine learning model that identifies undervalued and overvalued NHL players by comparing performance metrics to contract value. Built to support hockey operations decision-making at the San Jose Sharks.',
+    tags: ['Python', 'Machine Learning', 'Data Analytics', 'NHL API'],
+    link: 'https://github.com/jagjothbhullar/nhl-analytics',
+    status: 'Live'
+  },
+  {
     title: 'Personal Portfolio',
     description: 'A React-based portfolio and blog site showcasing my work in sports and entertainment law. Built with Vite, Tailwind CSS, and deployed on GitHub Pages.',
     tags: ['React', 'Tailwind CSS', 'Vite'],
     link: 'https://github.com/jagjothbhullar/personal-blog',
     status: 'Live'
   },
-  // Add more projects here following this format:
-  // {
-  //   title: 'Project Name',
-  //   description: 'Brief description of the project and your role.',
-  //   tags: ['Tag1', 'Tag2'],
-  //   link: 'https://github.com/...',
-  //   status: 'Live' | 'In Progress' | 'Completed'
-  // },
 ]
 
 export default function Projects() {
@@ -75,14 +74,6 @@ export default function Projects() {
         <p className="text-gray-500">Projects coming soon!</p>
       )}
 
-      {/* Instructions for adding projects */}
-      <div className="mt-12 p-6 bg-gray-50 rounded-lg">
-        <h3 className="font-semibold text-gray-900 mb-2">Adding New Projects</h3>
-        <p className="text-gray-600 text-sm">
-          To add a new project, edit <code className="bg-gray-200 px-1 rounded">src/pages/Projects.jsx</code> and
-          add an entry to the <code className="bg-gray-200 px-1 rounded">projects</code> array at the top of the file.
-        </p>
-      </div>
     </div>
   )
 }
