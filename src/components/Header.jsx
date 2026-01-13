@@ -19,6 +19,11 @@ export default function Header() {
             </Link>
           </li>
           <li>
+            <Link to="/projects" className="text-gray-600 hover:text-gray-900 font-medium">
+              Projects
+            </Link>
+          </li>
+          <li>
             <Link to="/blog" className="text-gray-600 hover:text-gray-900 font-medium">
               Insights
             </Link>
