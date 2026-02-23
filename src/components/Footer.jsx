@@ -1,23 +1,35 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-200 mt-auto bg-gray-50">
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-gray-600">
-            <span className="font-semibold text-gray-900">Jagjoth Bhullar</span>
-            <span className="mx-2">·</span>
-            <span>Sports & Entertainment Attorney</span>
-          </div>
-          <div className="flex items-center gap-6 text-sm text-gray-500">
-            <a href="mailto:jbhullar@berkeley.edu" className="hover:text-blue-600">
-              jbhullar@berkeley.edu
-            </a>
-            <span>·</span>
-            <span>Bay Area, CA</span>
-          </div>
+    <footer className="bg-navy text-white text-center py-20 md:py-32 px-6">
+      <div className="max-w-[1400px] mx-auto">
+        <h2 className="font-serif text-4xl md:text-6xl font-normal tracking-tight mb-6">
+          <em className="italic text-gold">Jagjoth Bhullar</em>
+        </h2>
+        <p className="text-white/50 text-lg mb-2">Sports Attorney. Software Builder.</p>
+
+        <div className="flex flex-col md:flex-row justify-center gap-4 md:gap-12 pt-8 mt-8 border-t border-white/10 text-sm text-white/50">
+          <span>jagjothbhullar@gmail.com</span>
+          <span>408-896-6014</span>
+          <a
+            href="https://apps.calbar.ca.gov/attorney/Licensee/Detail/328782"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-b border-gold hover:text-white transition-colors"
+          >
+            CA Bar #328782
+          </a>
+          <a
+            href="https://github.com/jagjothbhullar"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border-b border-gold hover:text-white transition-colors"
+          >
+            GitHub
+          </a>
         </div>
-        <div className="mt-4 pt-4 border-t border-gray-200 text-center text-sm text-gray-400">
-          &copy; {new Date().getFullYear()} Jagjoth Bhullar. All rights reserved.
+
+        <div className="mt-8 text-xs text-white/30">
+          &copy; {new Date().getFullYear()} Jagjoth Bhullar
         </div>
       </div>
     </footer>

@@ -2,17 +2,19 @@ import { Link } from 'react-router-dom'
 
 export default function PostCard({ post }) {
   return (
-    <article className="border-b border-gray-100 pb-6 mb-6 last:border-0">
+    <article className="border-b border-black/10 pb-8 mb-8 last:border-0 group">
       <Link to={`/blog/${post.slug}`}>
-        <h2 className="text-xl font-semibold text-gray-900 hover:text-blue-600 mb-2">
+        <p className="text-xs font-semibold tracking-[0.1em] uppercase text-gold mb-3">
+          {post.date}
+        </p>
+        <h2 className="font-serif text-2xl font-medium text-navy group-hover:text-gold transition-colors mb-3">
           {post.title}
         </h2>
       </Link>
-      <p className="text-sm text-gray-500 mb-2">{post.date}</p>
-      <p className="text-gray-600">{post.excerpt}</p>
+      <p className="text-text-muted leading-relaxed">{post.excerpt}</p>
       <Link
         to={`/blog/${post.slug}`}
-        className="text-blue-600 hover:text-blue-800 text-sm mt-2 inline-block"
+        className="text-gold text-sm mt-4 inline-block hover:opacity-70 transition-opacity"
       >
         Read more &rarr;
       </Link>
