@@ -9,6 +9,20 @@ const projects = [
     tags: ['Node.js', 'Express', 'React', 'Claude AI', 'ElevenLabs', 'PostgreSQL', 'Prisma'],
   },
   {
+    name: 'Hockey for Dummies',
+    url: 'https://hockey-for-dummies.onrender.com',
+    github: null,
+    description: 'Interactive hockey education and analytics tool that breaks down the game for new fans. Features visual explanations of rules, positions, strategies, and real-time game analytics.',
+    tags: ['Python', 'Flask', 'NHL Data', 'Interactive Education'],
+  },
+  {
+    name: 'NFL Playbook Simulator',
+    url: 'https://nfl-playbook-simulator.onrender.com/game',
+    github: null,
+    description: 'Interactive NFL play simulation and analytics tool. Visualize offensive and defensive formations, simulate play outcomes, and analyze strategic matchups with data-driven insights.',
+    tags: ['Python', 'Flask', 'Data Visualization', 'NFL Data'],
+  },
+  {
     name: '408 Sports',
     url: 'https://four08sports.onrender.com',
     github: 'https://github.com/jagjothbhullar/408sports',
@@ -23,25 +37,11 @@ const projects = [
     tags: ['React', 'Supabase', 'Claude AI', 'Chart.js', 'Tailwind CSS'],
   },
   {
-    name: 'NFL Playbook Simulator',
-    url: '#',
-    github: null,
-    description: 'Interactive NFL play simulation and analytics tool. Visualize offensive and defensive formations, simulate play outcomes, and analyze strategic matchups with data-driven insights.',
-    tags: ['React', 'Canvas API', 'Data Visualization', 'NFL Data'],
-  },
-  {
     name: 'NHL Salary Predictor',
     url: '#',
     github: 'https://github.com/jagjothbhullar/nhl-analytics',
     description: 'Machine learning model that predicts NHL player contract values by analyzing performance metrics against historical contract data. Built to support hockey operations decision-making.',
     tags: ['Python', 'scikit-learn', 'pandas', 'NHL API', 'Data Analytics'],
-  },
-  {
-    name: 'Hockey for Dummies',
-    url: '#',
-    github: null,
-    description: 'Interactive hockey education and analytics tool that breaks down the game for new fans. Features visual explanations of rules, positions, strategies, and real-time game analytics.',
-    tags: ['React', 'D3.js', 'NHL Data', 'Interactive Education'],
   },
 ]
 

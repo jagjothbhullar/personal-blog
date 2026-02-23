@@ -32,6 +32,18 @@ const projects = [
     tags: ['Node.js', 'React', 'Claude AI', 'ElevenLabs', 'PostgreSQL'],
   },
   {
+    name: 'Hockey for Dummies',
+    url: 'https://hockey-for-dummies.onrender.com',
+    oneLiner: 'Interactive hockey education and analytics tool',
+    tags: ['Python', 'Flask', 'NHL Data'],
+  },
+  {
+    name: 'NFL Playbook Simulator',
+    url: 'https://nfl-playbook-simulator.onrender.com/game',
+    oneLiner: 'Interactive NFL play simulation and analytics',
+    tags: ['Python', 'Flask', 'Data Viz'],
+  },
+  {
     name: '408 Sports',
     url: 'https://four08sports.onrender.com',
     oneLiner: 'Retro CRT TV interface for Bay Area sports highlights',
@@ -44,22 +56,10 @@ const projects = [
     tags: ['React', 'Supabase', 'Claude AI', 'Charts'],
   },
   {
-    name: 'NFL Playbook Simulator',
-    url: '#',
-    oneLiner: 'Interactive NFL play simulation and analytics',
-    tags: ['React', 'Canvas API', 'Data Viz'],
-  },
-  {
     name: 'NHL Salary Predictor',
     url: '#',
     oneLiner: 'ML model predicting NHL player contract values',
     tags: ['Python', 'scikit-learn', 'NHL API'],
-  },
-  {
-    name: 'Hockey for Dummies',
-    url: '#',
-    oneLiner: 'Interactive hockey education and analytics tool',
-    tags: ['React', 'D3.js', 'NHL Data'],
   },
 ]
 
@@ -107,13 +107,13 @@ export default function Home() {
             {/* Text */}
             <div className="flex-1 text-center md:text-left">
               <p className="text-xs font-semibold tracking-[0.2em] uppercase text-gold mb-8 animate-fade-up animate-fade-up-1">
-                Sports Attorney &middot; Software Builder
+                Sports &amp; Entertainment Attorney
               </p>
               <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl font-normal leading-[0.95] tracking-tight mb-8 animate-fade-up animate-fade-up-2">
                 Jagjoth<br /><em className="italic text-gold">Bhullar</em>
               </h1>
               <p className="text-lg md:text-xl font-light text-white/70 max-w-xl leading-relaxed animate-fade-up animate-fade-up-3">
-                Sports Attorney. Software Builder.
+                7+ years of experience. Work across leagues, teams, and media properties. Background in Computer Engineering.
               </p>
             </div>
 
@@ -130,23 +130,18 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Stats row */}
-          <div className="flex flex-wrap justify-center md:justify-start gap-8 md:gap-16 mt-16 pt-8 border-t border-white/10 animate-fade-up animate-fade-up-5">
-            {[
-              { value: '6+', label: 'Projects Shipped' },
-              { value: '3', label: 'Roles in Sports Law' },
-              { value: 'BS', label: 'Computer Engineering' },
-              { value: 'JD', label: 'UC Berkeley' },
-            ].map((stat) => (
-              <div key={stat.label} className="text-left group cursor-default">
-                <div className="font-serif text-4xl md:text-5xl font-normal text-gold group-hover:text-cyan transition-colors">
-                  {stat.value}
-                </div>
-                <div className="text-xs font-medium tracking-[0.1em] uppercase text-white/50 mt-2">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+          {/* Resume highlights */}
+          <div className="mt-16 pt-8 border-t border-white/10 animate-fade-up animate-fade-up-5">
+            <ul className="grid md:grid-cols-2 gap-x-12 gap-y-3 text-white/60 text-sm leading-relaxed">
+              <li>Deputy General Counsel, San Jose Sharks</li>
+              <li>$425M SAP Center renovation &amp; lease extension</li>
+              <li>Director of Legal &amp; Business Affairs, FuboTV</li>
+              <li>$100M+ annual cable distribution portfolio (Pac-12)</li>
+              <li>Senior Counsel, Pac-12 Conference (promoted 3x)</li>
+              <li>First Power 5 NIL licensing portal</li>
+              <li>JD, UC Berkeley School of Law</li>
+              <li>BS Computer Engineering, Santa Clara University</li>
+            </ul>
           </div>
         </div>
       </section>
