@@ -293,14 +293,14 @@ function Hero() {
             <img className="bio-education-logo" src="/logo-berkeley-law.png" alt="UC Berkeley Law" />
             <div className="bio-education-text">
               <dt className="mono">2019 · Berkeley Law</dt>
-              <dd>J.D. Honors in IP in the Music Industry, Negotiations, Sports Law, and Advertising Law.</dd>
+              <dd>J.D.</dd>
             </div>
           </div>
           <div>
             <img className="bio-education-logo" src="/logo-santa-clara.jpg" alt="Santa Clara University" />
             <div className="bio-education-text">
               <dt className="mono">2016 · Santa Clara University</dt>
-              <dd>B.S., Computer Engineering · <em>magna cum laude</em>. Dean’s List 2013–2016; President, Tau Beta Pi.</dd>
+              <dd>B.S. Computer Engineer, <em>magna cum laude</em></dd>
             </div>
           </div>
         </dl>
