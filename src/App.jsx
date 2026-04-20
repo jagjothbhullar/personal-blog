@@ -288,22 +288,16 @@ function Hero() {
           </p>
           <p>On the side, I build AI tools for the practice of sports law.</p>
         </div>
-        <dl className="bio-education">
-          <div>
+        <div className="bio-education">
+          <div className="bio-education-item">
             <img className="bio-education-logo" src="/logo-berkeley-law.png" alt="UC Berkeley Law" />
-            <div className="bio-education-text">
-              <dt className="mono">2019 · Berkeley Law</dt>
-              <dd>J.D.</dd>
-            </div>
+            <div className="bio-education-text mono">2019 · Berkeley Law · J.D.</div>
           </div>
-          <div>
+          <div className="bio-education-item">
             <img className="bio-education-logo" src="/logo-santa-clara.jpg" alt="Santa Clara University" />
-            <div className="bio-education-text">
-              <dt className="mono">2016 · Santa Clara University</dt>
-              <dd>B.S. Computer Engineer, <em>magna cum laude</em></dd>
-            </div>
+            <div className="bio-education-text mono">2016 · Santa Clara University · B.S. Computer Engineering, <em>magna cum laude</em></div>
           </div>
-        </dl>
+        </div>
       </div>
     </section>
   )
@@ -672,7 +666,7 @@ function Currently() {
       <div className="section-head reveal">
         <div className="section-num">§ 04 · Interests</div>
         <div>
-          <h2 className="section-title">What I&rsquo;m <em>into.</em></h2>
+          <h2 className="section-title">What I&rsquo;ve <em>loved lately.</em></h2>
           <p className="section-sub">A running feed from Letterboxd, Goodreads, GitHub and Last.fm — films, books, code, and what&rsquo;s in my headphones.</p>
         </div>
       </div>
