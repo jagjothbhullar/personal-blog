@@ -526,7 +526,6 @@ function FilmCard({ film }) {
             {film.rating && <> · <span className="stars">{stars(film.rating)}</span></>}
             {film.rewatch && <> · rewatch</>}
           </div>
-          {film.review && <p className="currently-review">{film.review}</p>}
           <div className="currently-date mono">{shortDate(film.watchedDate)}</div>
         </div>
       </div>
