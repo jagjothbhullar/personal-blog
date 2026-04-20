@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route, Link, useParams, useLocation, Navigate } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import { posts, getPost, formatDate } from './utils/posts'
+import feeds from './data/feeds.json'
 
 const MARQUEE_ITEMS = [
   'Sports', 'Entertainment', 'Technology', 'Media Rights', 'Broadcasting',
@@ -109,8 +110,9 @@ const NAV_LINKS = [
   ['03', 'Speaking', '/#press'],
   ['04', 'Projects', '/#projects'],
   ['05', 'Writing', '/#writing'],
-  ['06', 'Education', '/#education'],
-  ['07', 'Contact', '/#contact'],
+  ['06', 'Currently', '/#currently'],
+  ['07', 'Education', '/#education'],
+  ['08', 'Contact', '/#contact'],
 ]
 
 function useCursor() {
@@ -151,7 +153,7 @@ function useCursor() {
     }
     tick()
 
-    const selector = 'a, button, .docket, .swatch, .press-item, .project, .writing-item, .hero-cta'
+    const selector = 'a, button, .docket, .swatch, .press-item, .project, .writing-item, .currently-card, .hero-cta'
     const onOver = (e) => {
       if (e.target.closest && e.target.closest(selector)) ring.classList.add('hover')
     }
@@ -473,12 +475,118 @@ function Writing() {
   )
 }
 
+function stars(rating) {
+  const n = Number(rating)
+  if (!n) return ''
+  const full = Math.floor(n)
+  const half = n - full >= 0.5
+  return '★'.repeat(full) + (half ? '½' : '')
+}
+
+function shortDate(input) {
+  if (!input) return ''
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(input)
+  const d = m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : new Date(input)
+  if (Number.isNaN(d.getTime())) return ''
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+function FilmCard({ film }) {
+  if (!film) return null
+  return (
+    <a className="currently-card" href={film.link} target="_blank" rel="noopener noreferrer">
+      <div className="currently-kicker">
+        <span>Watching</span>
+        <span>Letterboxd</span>
+      </div>
+      <div className="currently-body">
+        {film.poster && <img className="currently-art" src={film.poster} alt={`${film.title} poster`} loading="lazy" />}
+        <div className="currently-text">
+          <h3 className="currently-title">{film.title}</h3>
+          <div className="currently-meta">
+            {film.year}
+            {film.rating && <> · <span className="stars">{stars(film.rating)}</span></>}
+            {film.rewatch && <> · rewatch</>}
+          </div>
+          {film.review && <p className="currently-review">{film.review}</p>}
+          <div className="currently-date mono">{shortDate(film.watchedDate)}</div>
+        </div>
+      </div>
+    </a>
+  )
+}
+
+function BookCard({ book, currentlyReading }) {
+  if (!book) return null
+  return (
+    <a className="currently-card" href={book.link} target="_blank" rel="noopener noreferrer">
+      <div className="currently-kicker">
+        <span>{currentlyReading ? 'Reading' : 'Last finished'}</span>
+        <span>Goodreads</span>
+      </div>
+      <div className="currently-body">
+        {book.cover && <img className="currently-art book" src={book.cover} alt={`${book.title} cover`} loading="lazy" />}
+        <div className="currently-text">
+          <h3 className="currently-title">{book.title}</h3>
+          <div className="currently-meta">
+            {book.author}
+            {Number(book.rating) > 0 && <> · <span className="stars">{stars(book.rating)}</span></>}
+          </div>
+          {book.review && <p className="currently-review">{book.review}</p>}
+          {!currentlyReading && <div className="currently-date mono">{shortDate(book.readAt)}</div>}
+        </div>
+      </div>
+    </a>
+  )
+}
+
+function Currently() {
+  const film = feeds?.letterboxd?.[0]
+  const reading = feeds?.goodreads?.currentlyReading?.[0]
+  const lastRead = feeds?.goodreads?.read?.[0]
+  const book = reading || lastRead
+  const recentFilms = (feeds?.letterboxd || []).slice(1, 4)
+  return (
+    <section className="section" id="currently">
+      <div className="big-numeral" aria-hidden="true">06</div>
+      <div className="section-head reveal">
+        <div className="section-num">§ 06 · Currently</div>
+        <div>
+          <h2 className="section-title">What I&rsquo;m <em>into.</em></h2>
+          <p className="section-sub">A running feed from Letterboxd and Goodreads — the latest film I watched and the book I&rsquo;m reading.</p>
+        </div>
+      </div>
+      <div className="currently-grid reveal">
+        <FilmCard film={film} />
+        <BookCard book={book} currentlyReading={Boolean(reading)} />
+      </div>
+      {recentFilms.length > 0 && (
+        <div className="currently-strip reveal">
+          <div className="mono currently-strip-label">Also recently</div>
+          <ul className="currently-strip-list">
+            {recentFilms.map((f) => (
+              <li key={f.link}>
+                <a href={f.link} target="_blank" rel="noopener noreferrer">
+                  <span className="currently-strip-title">{f.title}</span>
+                  <span className="currently-strip-meta mono">
+                    {f.year}{f.rating ? ` · ${stars(f.rating)}` : ''}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  )
+}
+
 function Education() {
   return (
     <section className="section" id="education">
-      <div className="big-numeral" aria-hidden="true">06</div>
+      <div className="big-numeral" aria-hidden="true">07</div>
       <div className="section-head reveal">
-        <div className="section-num">§ 06 · Credentials</div>
+        <div className="section-num">§ 07 · Credentials</div>
         <div>
           <h2 className="section-title">Education <em>&amp; bar</em></h2>
         </div>
@@ -508,8 +616,8 @@ function Education() {
 function Contact() {
   return (
     <section className="contact" id="contact">
-      <div className="big-numeral" aria-hidden="true">07</div>
-      <div className="section-num reveal" style={{ marginBottom: '1.5rem' }}>§ 07 · Correspondence</div>
+      <div className="big-numeral" aria-hidden="true">08</div>
+      <div className="section-num reveal" style={{ marginBottom: '1.5rem' }}>§ 08 · Correspondence</div>
       <h2 className="contact-h reveal">
         Let’s <em>work.</em>
       </h2>
@@ -621,6 +729,7 @@ function Home() {
       <Press />
       <Projects />
       <Writing />
+      <Currently />
       <Education />
       <Contact />
     </>
