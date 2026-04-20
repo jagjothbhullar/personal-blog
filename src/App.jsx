@@ -58,15 +58,6 @@ const DOCKETS = [
   },
 ]
 
-const PRESS = [
-  { kicker: ['UC Berkeley', 'Lecture'], title: 'Sports Media Rights in the Streaming Era', venue: 'Berkeley Law — Guest Lecturer' },
-  { kicker: ['UC Hastings', 'Panel'], title: 'NIL, Collectives & the New College Athlete', venue: 'UC Law SF (Hastings) — Panelist' },
-  { kicker: ['UC Davis', 'Moderator'], title: 'Inside In-House: Building a Sports Law Career', venue: 'UC Davis School of Law — Moderator' },
-  { kicker: ['Pepperdine', 'Panel'], title: 'Emerging Technology & the Business of Live Sport', venue: 'Pepperdine Caruso School of Law' },
-  { kicker: ['Santa Clara', 'Lecture'], title: 'From Engineer to Attorney: The Hybrid Track', venue: 'Santa Clara University — Guest Lecturer' },
-  { kicker: ['Selected', 'Ongoing'], title: 'Additional appearances on request', venue: 'Available for panels, lectures and moderation' },
-]
-
 const PROJECTS = [
   {
     num: '001 /',
@@ -107,12 +98,11 @@ const ACCENT_SWATCHES = ['#00C2B2', '#FF4D2E', '#D4A017', '#3F6DF5', '#9D5CFF', 
 const NAV_LINKS = [
   ['01', 'About', '/#about'],
   ['02', 'Experience', '/#experience'],
-  ['03', 'Speaking', '/#press'],
+  ['03', 'Interests', '/#interests'],
   ['04', 'Projects', '/#projects'],
   ['05', 'Writing', '/#writing'],
-  ['06', 'Currently', '/#currently'],
-  ['07', 'Education', '/#education'],
-  ['08', 'Contact', '/#contact'],
+  ['06', 'Education', '/#education'],
+  ['07', 'Contact', '/#contact'],
 ]
 
 function useCursor() {
@@ -378,30 +368,6 @@ function Experience() {
   )
 }
 
-function Press() {
-  return (
-    <section className="section" id="press">
-      <div className="big-numeral" aria-hidden="true">03</div>
-      <div className="section-head reveal">
-        <div className="section-num">§ 03 · Lectern</div>
-        <div>
-          <h2 className="section-title">Speaking <em>&amp;</em> press</h2>
-          <p className="section-sub">Guest lectures, panels, and moderated conversations at law schools across California.</p>
-        </div>
-      </div>
-      <div className="press reveal">
-        {PRESS.map((p, i) => (
-          <a key={i} href="#" className="press-item" onClick={(e) => e.preventDefault()}>
-            <div className="press-kicker"><span>{p.kicker[0]}</span><span>{p.kicker[1]}</span></div>
-            <h3 className="press-title">{p.title}</h3>
-            <div className="press-venue">{p.venue}</div>
-          </a>
-        ))}
-      </div>
-    </section>
-  )
-}
-
 function Projects() {
   return (
     <section className="section" id="projects">
@@ -651,10 +617,10 @@ function Currently() {
   ].filter(Boolean)
 
   return (
-    <section className="section" id="currently">
-      <div className="big-numeral" aria-hidden="true">06</div>
+    <section className="section" id="interests">
+      <div className="big-numeral" aria-hidden="true">03</div>
       <div className="section-head reveal">
-        <div className="section-num">§ 06 · Currently</div>
+        <div className="section-num">§ 03 · Interests</div>
         <div>
           <h2 className="section-title">What I&rsquo;m <em>into.</em></h2>
           <p className="section-sub">A running feed from Letterboxd, Goodreads, GitHub and Last.fm — films, books, code, and what&rsquo;s in my headphones.</p>
@@ -688,9 +654,9 @@ function Currently() {
 function Education() {
   return (
     <section className="section" id="education">
-      <div className="big-numeral" aria-hidden="true">07</div>
+      <div className="big-numeral" aria-hidden="true">06</div>
       <div className="section-head reveal">
-        <div className="section-num">§ 07 · Credentials</div>
+        <div className="section-num">§ 06 · Credentials</div>
         <div>
           <h2 className="section-title">Education <em>&amp; bar</em></h2>
         </div>
@@ -720,8 +686,8 @@ function Education() {
 function Contact() {
   return (
     <section className="contact" id="contact">
-      <div className="big-numeral" aria-hidden="true">08</div>
-      <div className="section-num reveal" style={{ marginBottom: '1.5rem' }}>§ 08 · Correspondence</div>
+      <div className="big-numeral" aria-hidden="true">07</div>
+      <div className="section-num reveal" style={{ marginBottom: '1.5rem' }}>§ 07 · Correspondence</div>
       <h2 className="contact-h reveal">
         Let’s <em>work.</em>
       </h2>
@@ -830,10 +796,9 @@ function Home() {
       <Hero />
       <Marquee />
       <Experience />
-      <Press />
+      <Currently />
       <Projects />
       <Writing />
-      <Currently />
       <Education />
       <Contact />
     </>
