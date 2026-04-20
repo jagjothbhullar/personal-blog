@@ -8,6 +8,8 @@ const GOODREADS_ID = '127587433'
 const GITHUB_USER = 'jagjothbhullar'
 const LASTFM_USER = 'jagjoth2794'
 const LASTFM_API_KEY = process.env.LASTFM_API_KEY || ''
+const DISTILL_RSS = 'https://distill-server.onrender.com/podcast/feed.xml'
+const SPOTIFY_SHOW_URL = 'https://open.spotify.com/show/0Op9eHKLSb0nfZrh5wu2mt'
 const UA = 'Mozilla/5.0 (personal-blog feed fetcher; +https://github.com/jagjothbhullar/personal-blog)'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -180,6 +182,24 @@ async function fetchLastfm() {
   return { recent, nowPlaying: recent.find((t) => t.nowPlaying) || null }
 }
 
+function parseDistill(xml) {
+  const items = allItems(xml)
+  if (!items.length) return null
+  const item = items[0]
+  const summary = decodeEntities(firstTag(item, 'itunes:summary') || firstTag(item, 'description') || '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+  return {
+    title: firstTag(item, 'title'),
+    date: firstTag(item, 'pubDate'),
+    duration: firstTag(item, 'itunes:duration'),
+    episode: firstTag(item, 'itunes:episode'),
+    summary: summary.length > 260 ? summary.slice(0, 257) + '…' : summary,
+    spotifyUrl: SPOTIFY_SHOW_URL,
+  }
+}
+
 async function loadExisting() {
   try {
     const txt = await fs.readFile(OUT_PATH, 'utf8')
@@ -201,12 +221,13 @@ async function run() {
     }
   }
 
-  const [lbXml, grRead, grReading, github, lastfm] = await Promise.all([
+  const [lbXml, grRead, grReading, github, lastfm, distillXml] = await Promise.all([
     safe('letterboxd', () => fetchText(`https://letterboxd.com/${LETTERBOXD_USER}/rss/`), null),
     safe('goodreads read', () => fetchText(`https://www.goodreads.com/review/list_rss/${GOODREADS_ID}?shelf=read`), null),
     safe('goodreads reading', () => fetchText(`https://www.goodreads.com/review/list_rss/${GOODREADS_ID}?shelf=currently-reading`), null),
     safe('github', fetchGitHub, existing.github || []),
     safe('lastfm', fetchLastfm, existing.lastfm || { unconfigured: !LASTFM_API_KEY, recent: [], nowPlaying: null }),
+    safe('distill', () => fetchText(DISTILL_RSS), null),
   ])
 
   const data = {
@@ -218,6 +239,7 @@ async function run() {
     },
     github,
     lastfm,
+    distill: distillXml ? parseDistill(distillXml) : existing.distill || null,
   }
 
   await fs.mkdir(path.dirname(OUT_PATH), { recursive: true })
@@ -228,6 +250,7 @@ async function run() {
   console.log(`  goodreads read: ${data.goodreads.read.length} (latest: ${data.goodreads.read[0]?.title || '—'})`)
   console.log(`  github events: ${data.github.length} (latest: ${data.github[0]?.repoShort || '—'})`)
   console.log(`  lastfm: ${data.lastfm.unconfigured ? 'unconfigured (set LASTFM_API_KEY)' : `${data.lastfm.recent.length} recent tracks`}`)
+  console.log(`  distill: ${data.distill ? `latest "${data.distill.title}"` : '—'}`)
 }
 
 run().catch(async (err) => {

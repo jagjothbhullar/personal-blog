@@ -96,13 +96,13 @@ const PROJECTS = [
 const ACCENT_SWATCHES = ['#00C2B2', '#FF4D2E', '#D4A017', '#3F6DF5', '#9D5CFF', '#0A0A0A']
 
 const NAV_LINKS = [
-  ['01', 'About', '/#about'],
-  ['02', 'Experience', '/#experience'],
-  ['03', 'Interests', '/#interests'],
-  ['04', 'Projects', '/#projects'],
-  ['05', 'Writing', '/#writing'],
-  ['06', 'Education', '/#education'],
-  ['07', 'Contact', '/#contact'],
+  ['01', 'Contact', '/#contact'],
+  ['02', 'About', '/#about'],
+  ['03', 'Experience', '/#experience'],
+  ['04', 'Interests', '/#interests'],
+  ['05', 'Projects', '/#projects'],
+  ['06', 'Blog', '/#blog'],
+  ['07', 'Education', '/#education'],
 ]
 
 function useCursor() {
@@ -143,7 +143,7 @@ function useCursor() {
     }
     tick()
 
-    const selector = 'a, button, .docket, .swatch, .press-item, .project, .writing-item, .currently-card, .hero-cta'
+    const selector = 'a, button, .docket, .swatch, .press-item, .project, .writing-item, .currently-card, .podcast-feature, .hero-cta'
     const onOver = (e) => {
       if (e.target.closest && e.target.closest(selector)) ring.classList.add('hover')
     }
@@ -233,7 +233,8 @@ function TopNav({ minimal = false }) {
       )}
       {minimal && (
         <div className="linklist">
-          <Link to="/#writing" data-num="←">All writing</Link>
+          <Link to="/#blog" data-num="←">All posts</Link>
+          <Link to="/#contact" data-num="✉">Contact</Link>
         </div>
       )}
     </nav>
@@ -345,9 +346,9 @@ function Experience() {
   const [openIndex, setOpenIndex] = useState(0)
   return (
     <section className="section" id="experience">
-      <div className="big-numeral" aria-hidden="true">02</div>
+      <div className="big-numeral" aria-hidden="true">03</div>
       <div className="section-head reveal">
-        <div className="section-num">§ 02 · Docket</div>
+        <div className="section-num">§ 03 · Docket</div>
         <div>
           <h2 className="section-title">Selected <em>experience</em></h2>
           <p className="section-sub">Three chapters. Leagues, streaming, and live sport. Click any entry to open the case file.</p>
@@ -371,9 +372,9 @@ function Experience() {
 function Projects() {
   return (
     <section className="section" id="projects">
-      <div className="big-numeral" aria-hidden="true">04</div>
+      <div className="big-numeral" aria-hidden="true">05</div>
       <div className="section-head reveal">
-        <div className="section-num">§ 04 · Workshop</div>
+        <div className="section-num">§ 05 · Workshop</div>
         <div>
           <h2 className="section-title">AI <em>projects</em></h2>
         </div>
@@ -410,17 +411,40 @@ function Projects() {
   )
 }
 
-function Writing() {
+function Blog() {
+  const episode = feeds?.distill
   return (
-    <section className="section" id="writing">
-      <div className="big-numeral" aria-hidden="true">05</div>
+    <section className="section" id="blog">
+      <div className="big-numeral" aria-hidden="true">06</div>
       <div className="section-head reveal">
-        <div className="section-num">§ 05 · Notes</div>
+        <div className="section-num">§ 06 · Notebook</div>
         <div>
-          <h2 className="section-title">Writing <em>&amp; notes</em></h2>
-          <p className="section-sub">Short pieces on sport, media, and the software I build around them.</p>
+          <h2 className="section-title">Blog <em>&amp; broadcast</em></h2>
+          <p className="section-sub">Articles and notes, plus the latest episode of Bhullar&rsquo;s Brief — my daily AI-generated podcast on sports, media, and the law.</p>
         </div>
       </div>
+      {episode && (
+        <a
+          className="podcast-feature reveal"
+          href={episode.spotifyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Listen to the latest Bhullar's Brief episode on Spotify: ${episode.title}`}
+        >
+          <div className="podcast-kicker">
+            <span>Latest episode · Bhullar&rsquo;s Brief</span>
+            <span>Spotify ↗</span>
+          </div>
+          <h3 className="podcast-title">{episode.title}</h3>
+          {episode.summary && <p className="podcast-summary">{episode.summary}</p>}
+          <div className="podcast-meta mono">
+            {episode.episode && <span>Ep. {episode.episode}</span>}
+            {episode.duration && <span>{episode.duration}</span>}
+            {episode.date && <span>{formatDate(new Date(episode.date).toISOString().slice(0, 10))}</span>}
+            <span className="podcast-listen">Listen on Spotify →</span>
+          </div>
+        </a>
+      )}
       <div className="writing-list reveal">
         {posts.length === 0 && (
           <div className="writing-empty">No posts yet — check back soon.</div>
@@ -618,9 +642,9 @@ function Currently() {
 
   return (
     <section className="section" id="interests">
-      <div className="big-numeral" aria-hidden="true">03</div>
+      <div className="big-numeral" aria-hidden="true">04</div>
       <div className="section-head reveal">
-        <div className="section-num">§ 03 · Interests</div>
+        <div className="section-num">§ 04 · Interests</div>
         <div>
           <h2 className="section-title">What I&rsquo;m <em>into.</em></h2>
           <p className="section-sub">A running feed from Letterboxd, Goodreads, GitHub and Last.fm — films, books, code, and what&rsquo;s in my headphones.</p>
@@ -654,9 +678,9 @@ function Currently() {
 function Education() {
   return (
     <section className="section" id="education">
-      <div className="big-numeral" aria-hidden="true">06</div>
+      <div className="big-numeral" aria-hidden="true">07</div>
       <div className="section-head reveal">
-        <div className="section-num">§ 06 · Credentials</div>
+        <div className="section-num">§ 07 · Credentials</div>
         <div>
           <h2 className="section-title">Education <em>&amp; bar</em></h2>
         </div>
@@ -686,8 +710,8 @@ function Education() {
 function Contact() {
   return (
     <section className="contact" id="contact">
-      <div className="big-numeral" aria-hidden="true">07</div>
-      <div className="section-num reveal" style={{ marginBottom: '1.5rem' }}>§ 07 · Correspondence</div>
+      <div className="big-numeral" aria-hidden="true">01</div>
+      <div className="section-num reveal" style={{ marginBottom: '1.5rem' }}>§ 01 · Correspondence</div>
       <h2 className="contact-h reveal">
         Let’s <em>work.</em>
       </h2>
@@ -798,7 +822,7 @@ function Home() {
       <Experience />
       <Currently />
       <Projects />
-      <Writing />
+      <Blog />
       <Education />
       <Contact />
     </>
@@ -814,7 +838,7 @@ function PostPage() {
       <TopNav minimal />
       <article className="post-page">
         <div className="post-kicker mono reveal in">
-          <Link to="/#writing">← Writing</Link>
+          <Link to="/#blog">← Blog</Link>
           <span>{formatDate(post.date)} · {post.readingMinutes} min read</span>
         </div>
         <h1 className="post-title reveal in">{post.title}</h1>
@@ -823,7 +847,7 @@ function PostPage() {
           <ReactMarkdown>{post.content}</ReactMarkdown>
         </div>
         <div className="post-foot mono">
-          <Link to="/#writing">← Back to writing</Link>
+          <Link to="/#blog">← Back to blog</Link>
           <Link to="/">Return home</Link>
         </div>
       </article>

@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-20T02:09:28.418Z",
+  "fetchedAt": "2026-04-20T02:56:57.213Z",
   "letterboxd": [
     {
       "title": "Rounders",
@@ -196,7 +196,7 @@
       "repoShort": "personal-blog",
       "detail": "",
       "link": "https://github.com/jagjothbhullar/personal-blog",
-      "createdAt": "2026-04-20T02:04:13Z"
+      "createdAt": "2026-04-20T02:46:46Z"
     },
     {
       "type": "push",
@@ -266,5 +266,13 @@
       }
     ],
     "nowPlaying": null
+  },
+  "distill": {
+    "title": "Sunday, April 19, 2026: Trump Sends Negotiators to Pakistan for Iran Peace Talks",
+    "date": "Sun, 19 Apr 2026 14:30:00 GMT",
+    "duration": "7:24",
+    "episode": "50",
+    "summary": "President Trump announced Sunday that U.S. negotiators will travel to Pakistan on Monday for the next round of peace talks with Iran, marking a significant diplomatic development in the weeks-long crisis over the Strait of Hormuz. In New York City, Mayor Zo…",
+    "spotifyUrl": "https://open.spotify.com/show/0Op9eHKLSb0nfZrh5wu2mt"
   }
 }
