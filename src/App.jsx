@@ -224,7 +224,7 @@ function Cursor() {
 function TopNav({ minimal = false }) {
   return (
     <nav className="topnav" aria-label="Primary">
-      <Link to="/" className="brand"><b>JB</b> / Counsel &amp; Code</Link>
+      <Link to="/" className="brand"><b>JB</b></Link>
       {!minimal && (
         <div className="linklist">
           {NAV_LINKS.map(([num, label, href]) => (
@@ -707,7 +707,7 @@ function Footer() {
       <div className="colophon">
         <span>© MMXXVI · Jagjoth Bhullar</span>
         <span>CA Bar #328782</span>
-        <span>Made with counsel &amp; code</span>
+        <span>Bay Area, CA</span>
       </div>
     </footer>
   )
