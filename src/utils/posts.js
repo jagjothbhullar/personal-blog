@@ -1,56 +1,45 @@
-// Import all markdown files from the posts directory
-const postFiles = import.meta.glob('../posts/*.md', {
-  eager: true,
-  query: '?raw',
-  import: 'default'
-})
+const files = import.meta.glob('../posts/*.md', { eager: true, query: '?raw', import: 'default' })
 
-// Parse frontmatter from markdown content
-function parseFrontmatter(content) {
-  const frontmatterRegex = /^---\n([\s\S]*?)\n---/
-  const match = content.match(frontmatterRegex)
-
-  if (!match) {
-    return { data: {}, content }
-  }
-
-  const frontmatterBlock = match[1]
-  const body = content.slice(match[0].length).trim()
-
+function parseFrontmatter(raw) {
+  const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/.exec(raw)
+  if (!match) return { data: {}, content: raw }
   const data = {}
-  frontmatterBlock.split('\n').forEach(line => {
-    const [key, ...valueParts] = line.split(':')
-    if (key && valueParts.length) {
-      const value = valueParts.join(':').trim()
-      // Remove quotes if present
-      data[key.trim()] = value.replace(/^["']|["']$/g, '')
-    }
+  match[1].split(/\r?\n/).forEach((line) => {
+    const idx = line.indexOf(':')
+    if (idx === -1) return
+    const key = line.slice(0, idx).trim()
+    const value = line.slice(idx + 1).trim().replace(/^["']|["']$/g, '')
+    if (key) data[key] = value
   })
-
-  return { data, content: body }
+  return { data, content: match[2] }
 }
 
-// Get all posts sorted by date
-export function getAllPosts() {
-  const posts = Object.entries(postFiles).map(([path, content]) => {
-    const { data, content: body } = parseFrontmatter(content)
-    const slug = path.split('/').pop().replace('.md', '')
+function readingTime(content) {
+  const words = content.trim().split(/\s+/).length
+  return Math.max(1, Math.round(words / 220))
+}
 
+export const posts = Object.entries(files)
+  .map(([path, raw]) => {
+    const slug = path.split('/').pop().replace(/\.md$/, '')
+    const { data, content } = parseFrontmatter(raw)
     return {
       slug: data.slug || slug,
-      title: data.title || 'Untitled',
+      title: data.title || slug,
       date: data.date || '',
       excerpt: data.excerpt || '',
-      content: body
+      content,
+      readingMinutes: readingTime(content),
     }
   })
+  .sort((a, b) => (a.date < b.date ? 1 : -1))
 
-  // Sort by date descending
-  return posts.sort((a, b) => new Date(b.date) - new Date(a.date))
-}
+export const getPost = (slug) => posts.find((p) => p.slug === slug)
 
-// Get a single post by slug
-export function getPostBySlug(slug) {
-  const posts = getAllPosts()
-  return posts.find(post => post.slug === slug)
+export function formatDate(dateStr) {
+  if (!dateStr) return ''
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(dateStr)
+  const d = m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : new Date(dateStr)
+  if (Number.isNaN(d.getTime())) return dateStr
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 }
