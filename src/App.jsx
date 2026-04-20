@@ -102,7 +102,6 @@ const NAV_LINKS = [
   ['04', 'Interests', '/#interests'],
   ['05', 'Projects', '/#projects'],
   ['06', 'Blog', '/#blog'],
-  ['07', 'Education', '/#education'],
 ]
 
 function useCursor() {
@@ -196,6 +195,10 @@ function useReveal() {
 function ScrollToHash() {
   const location = useLocation()
   useEffect(() => {
+    if (location.hash === '#contact' || location.hash === '#top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
     if (location.hash) {
       const id = location.hash.slice(1)
       setTimeout(() => {
@@ -205,7 +208,7 @@ function ScrollToHash() {
     } else {
       window.scrollTo(0, 0)
     }
-  }, [location.pathname, location.hash])
+  }, [location.pathname, location.hash, location.key])
   return null
 }
 
@@ -244,13 +247,20 @@ function TopNav({ minimal = false }) {
 function Hero() {
   return (
     <section className="about about-hero reveal in" id="top">
-      <div className="hero-meta-bar">
+      <div className="hero-meta-bar" id="contact">
         <div className="hero-meta mono">
           <span><span className="dot" aria-hidden="true"></span> CA Bar Certified · #328782</span>
           <span>Based in the Bay Area, CA</span>
         </div>
         <div className="hero-meta mono right" style={{ textAlign: 'right' }}>
           <span>Jagjoth Bhullar · Portfolio &amp; Docket</span>
+          <span className="hero-contact-links">
+            <a href="mailto:jagjothbhullar@gmail.com">Email</a>
+            <span aria-hidden="true"> · </span>
+            <a href="https://www.linkedin.com/in/jagjoth-bhullar" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <span aria-hidden="true"> · </span>
+            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume&nbsp;↓</a>
+          </span>
         </div>
       </div>
 
@@ -278,6 +288,16 @@ function Hero() {
           </p>
           <p>On the side, I build AI tools for the practice of sports law.</p>
         </div>
+        <dl className="bio-education">
+          <div>
+            <dt className="mono">2019 · Berkeley Law</dt>
+            <dd>J.D. Honors in IP in the Music Industry, Negotiations, Sports Law, and Advertising Law.</dd>
+          </div>
+          <div>
+            <dt className="mono">2016 · Santa Clara University</dt>
+            <dd>B.S., Computer Engineering · <em>magna cum laude</em>. Dean’s List 2013–2016; President, Tau Beta Pi.</dd>
+          </div>
+        </dl>
       </div>
     </section>
   )
@@ -675,67 +695,15 @@ function Currently() {
   )
 }
 
-function Education() {
+function Footer() {
   return (
-    <section className="section" id="education">
-      <div className="big-numeral" aria-hidden="true">07</div>
-      <div className="section-head reveal">
-        <div className="section-num">§ 07 · Credentials</div>
-        <div>
-          <h2 className="section-title">Education <em>&amp; bar</em></h2>
-        </div>
-      </div>
-      <div className="edu reveal">
-        <div>
-          <div className="label">2019</div>
-          <h3>University of California, Berkeley — School of Law</h3>
-          <div className="degree">Juris Doctor (J.D.)</div>
-          <div className="honors">
-            Received honors across various courses including: IP in the Music Industry, Negotiations, Sports Law, and Advertising Law.
-          </div>
-        </div>
-        <div>
-          <div className="label">2016</div>
-          <h3>Santa Clara University</h3>
-          <div className="degree">B.S., Computer Engineering · <em>magna cum laude</em></div>
-          <div className="honors">
-            Dean’s List, 2013–2016 · President, Tau Beta Pi (National Honor Society of Engineers)
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Contact() {
-  return (
-    <section className="contact" id="contact">
-      <div className="big-numeral" aria-hidden="true">01</div>
-      <div className="section-num reveal" style={{ marginBottom: '1.5rem' }}>§ 01 · Correspondence</div>
-      <h2 className="contact-h reveal">
-        Let’s <em>work.</em>
-      </h2>
-      <div className="contact-grid reveal">
-        <div>
-          <div className="label">Email</div>
-          <a href="mailto:jagjothbhullar@gmail.com">jagjothbhullar@gmail.com</a>
-        </div>
-        <div>
-          <div className="label">LinkedIn</div>
-          <a href="https://www.linkedin.com/in/jagjoth-bhullar" target="_blank" rel="noopener noreferrer">/in/jagjoth-bhullar</a>
-        </div>
-        <div>
-          <div className="label">Resume</div>
-          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Download PDF ↓</a>
-        </div>
-        <div></div>
-      </div>
+    <footer className="site-footer">
       <div className="colophon">
         <span>© MMXXVI · Jagjoth Bhullar</span>
         <span>CA Bar #328782</span>
         <span>Made with counsel &amp; code</span>
       </div>
-    </section>
+    </footer>
   )
 }
 
@@ -823,8 +791,7 @@ function Home() {
       <Currently />
       <Projects />
       <Blog />
-      <Education />
-      <Contact />
+      <Footer />
     </>
   )
 }
