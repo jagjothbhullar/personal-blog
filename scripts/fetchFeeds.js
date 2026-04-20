@@ -5,15 +5,24 @@ import { fileURLToPath } from 'node:url'
 
 const LETTERBOXD_USER = 'jagjoth'
 const GOODREADS_ID = '127587433'
+const GITHUB_USER = 'jagjothbhullar'
+const LASTFM_USER = 'jagjoth2794'
+const LASTFM_API_KEY = process.env.LASTFM_API_KEY || ''
 const UA = 'Mozilla/5.0 (personal-blog feed fetcher; +https://github.com/jagjothbhullar/personal-blog)'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const OUT_PATH = path.resolve(__dirname, '../src/data/feeds.json')
 
-async function fetchText(url) {
-  const res = await fetch(url, { headers: { 'User-Agent': UA } })
+async function fetchText(url, headers = {}) {
+  const res = await fetch(url, { headers: { 'User-Agent': UA, ...headers } })
   if (!res.ok) throw new Error(`${url} -> ${res.status}`)
   return res.text()
+}
+
+async function fetchJSON(url, headers = {}) {
+  const res = await fetch(url, { headers: { 'User-Agent': UA, ...headers } })
+  if (!res.ok) throw new Error(`${url} -> ${res.status}`)
+  return res.json()
 }
 
 function stripCData(s) {
@@ -86,6 +95,91 @@ function parseGoodreads(xml) {
   })
 }
 
+function summarizeGitHubEvent(ev) {
+  const repo = ev.repo?.name || ''
+  const repoShort = repo.split('/').pop()
+  const repoLink = repo ? `https://github.com/${repo}` : ''
+  switch (ev.type) {
+    case 'PushEvent': {
+      const ref = (ev.payload?.ref || '').replace('refs/heads/', '')
+      return {
+        type: 'push',
+        verb: 'Pushed to',
+        repo,
+        repoShort,
+        detail: ref && ref !== 'main' && ref !== 'master' ? `${ref}` : '',
+        link: repoLink,
+        createdAt: ev.created_at,
+      }
+    }
+    case 'PullRequestEvent':
+      return {
+        type: 'pr',
+        verb: ev.payload?.action === 'closed' ? 'Closed PR in' : 'Opened PR in',
+        repo,
+        repoShort,
+        detail: ev.payload?.pull_request?.title || '',
+        link: ev.payload?.pull_request?.html_url || repoLink,
+        createdAt: ev.created_at,
+      }
+    case 'WatchEvent':
+      return { type: 'star', verb: 'Starred', repo, repoShort, detail: '', link: repoLink, createdAt: ev.created_at }
+    case 'CreateEvent':
+      if (ev.payload?.ref_type === 'repository') {
+        return { type: 'create', verb: 'Created', repo, repoShort, detail: 'new repository', link: repoLink, createdAt: ev.created_at }
+      }
+      return null
+    case 'ForkEvent':
+      return { type: 'fork', verb: 'Forked', repo, repoShort, detail: '', link: repoLink, createdAt: ev.created_at }
+    case 'ReleaseEvent':
+      return {
+        type: 'release',
+        verb: 'Released',
+        repo,
+        repoShort,
+        detail: ev.payload?.release?.tag_name || '',
+        link: ev.payload?.release?.html_url || repoLink,
+        createdAt: ev.created_at,
+      }
+    default:
+      return null
+  }
+}
+
+async function fetchGitHub() {
+  const headers = { Accept: 'application/vnd.github+json' }
+  if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`
+  const events = await fetchJSON(`https://api.github.com/users/${GITHUB_USER}/events/public?per_page=30`, headers)
+  const summarized = events.map(summarizeGitHubEvent).filter(Boolean)
+  const seen = new Set()
+  const deduped = []
+  for (const s of summarized) {
+    const key = `${s.type}:${s.repo}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    deduped.push(s)
+    if (deduped.length >= 5) break
+  }
+  return deduped
+}
+
+async function fetchLastfm() {
+  if (!LASTFM_API_KEY) return { unconfigured: true, recent: [], nowPlaying: null }
+  const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${LASTFM_USER}&api_key=${LASTFM_API_KEY}&format=json&limit=6`
+  const data = await fetchJSON(url)
+  const tracks = data?.recenttracks?.track || []
+  const recent = tracks.slice(0, 6).map((t) => ({
+    name: t.name,
+    artist: typeof t.artist === 'object' ? t.artist['#text'] : t.artist,
+    album: typeof t.album === 'object' ? t.album['#text'] : t.album,
+    image: (t.image || []).find((i) => i.size === 'large')?.['#text'] || (t.image || []).pop()?.['#text'] || '',
+    url: t.url,
+    nowPlaying: t['@attr']?.nowplaying === 'true',
+    playedAt: t.date?.uts ? new Date(Number(t.date.uts) * 1000).toISOString() : null,
+  }))
+  return { recent, nowPlaying: recent.find((t) => t.nowPlaying) || null }
+}
+
 async function loadExisting() {
   try {
     const txt = await fs.readFile(OUT_PATH, 'utf8')
@@ -96,19 +190,34 @@ async function loadExisting() {
 }
 
 async function run() {
-  const [lbXml, grRead, grReading] = await Promise.all([
-    fetchText(`https://letterboxd.com/${LETTERBOXD_USER}/rss/`),
-    fetchText(`https://www.goodreads.com/review/list_rss/${GOODREADS_ID}?shelf=read`),
-    fetchText(`https://www.goodreads.com/review/list_rss/${GOODREADS_ID}?shelf=currently-reading`),
+  const existing = (await loadExisting()) || {}
+
+  const safe = async (label, fn, fallback) => {
+    try {
+      return await fn()
+    } catch (err) {
+      console.error(`[feeds] ${label} failed:`, err.message)
+      return fallback
+    }
+  }
+
+  const [lbXml, grRead, grReading, github, lastfm] = await Promise.all([
+    safe('letterboxd', () => fetchText(`https://letterboxd.com/${LETTERBOXD_USER}/rss/`), null),
+    safe('goodreads read', () => fetchText(`https://www.goodreads.com/review/list_rss/${GOODREADS_ID}?shelf=read`), null),
+    safe('goodreads reading', () => fetchText(`https://www.goodreads.com/review/list_rss/${GOODREADS_ID}?shelf=currently-reading`), null),
+    safe('github', fetchGitHub, existing.github || []),
+    safe('lastfm', fetchLastfm, existing.lastfm || { unconfigured: !LASTFM_API_KEY, recent: [], nowPlaying: null }),
   ])
 
   const data = {
     fetchedAt: new Date().toISOString(),
-    letterboxd: parseLetterboxd(lbXml),
+    letterboxd: lbXml ? parseLetterboxd(lbXml) : existing.letterboxd || [],
     goodreads: {
-      currentlyReading: parseGoodreads(grReading),
-      read: parseGoodreads(grRead),
+      currentlyReading: grReading ? parseGoodreads(grReading) : existing.goodreads?.currentlyReading || [],
+      read: grRead ? parseGoodreads(grRead) : existing.goodreads?.read || [],
     },
+    github,
+    lastfm,
   }
 
   await fs.mkdir(path.dirname(OUT_PATH), { recursive: true })
@@ -117,6 +226,8 @@ async function run() {
   console.log(`  letterboxd: ${data.letterboxd.length} films (latest: ${data.letterboxd[0]?.title || '—'})`)
   console.log(`  goodreads currently reading: ${data.goodreads.currentlyReading.length}`)
   console.log(`  goodreads read: ${data.goodreads.read.length} (latest: ${data.goodreads.read[0]?.title || '—'})`)
+  console.log(`  github events: ${data.github.length} (latest: ${data.github[0]?.repoShort || '—'})`)
+  console.log(`  lastfm: ${data.lastfm.unconfigured ? 'unconfigured (set LASTFM_API_KEY)' : `${data.lastfm.recent.length} recent tracks`}`)
 }
 
 run().catch(async (err) => {

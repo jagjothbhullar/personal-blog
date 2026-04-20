@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-20T01:28:18.540Z",
+  "fetchedAt": "2026-04-20T01:49:30.674Z",
   "letterboxd": [
     {
       "title": "Rounders",
@@ -187,5 +187,39 @@
         "review": "Randomly came across this book on Twitter, described as a retelling of the Icarus myth through the lens of the perfect March Madness bracket. Fun, lighthearted read and +1 for all the 2019-2021 Covid era nostalgia."
       }
     ]
+  },
+  "github": [
+    {
+      "type": "push",
+      "verb": "Pushed to",
+      "repo": "jagjothbhullar/personal-blog",
+      "repoShort": "personal-blog",
+      "detail": "",
+      "link": "https://github.com/jagjothbhullar/personal-blog",
+      "createdAt": "2026-04-20T01:28:57Z"
+    },
+    {
+      "type": "push",
+      "verb": "Pushed to",
+      "repo": "jagjothbhullar/sharks-highlights",
+      "repoShort": "sharks-highlights",
+      "detail": "",
+      "link": "https://github.com/jagjothbhullar/sharks-highlights",
+      "createdAt": "2026-04-09T04:41:21Z"
+    },
+    {
+      "type": "push",
+      "verb": "Pushed to",
+      "repo": "jagjothbhullar/hockey-for-dummies",
+      "repoShort": "hockey-for-dummies",
+      "detail": "",
+      "link": "https://github.com/jagjothbhullar/hockey-for-dummies",
+      "createdAt": "2026-03-27T02:10:03Z"
+    }
+  ],
+  "lastfm": {
+    "unconfigured": true,
+    "recent": [],
+    "nowPlaying": null
   }
 }

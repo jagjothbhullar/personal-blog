@@ -491,6 +491,24 @@ function shortDate(input) {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
+function relativeTime(iso) {
+  if (!iso) return ''
+  const then = new Date(iso).getTime()
+  if (Number.isNaN(then)) return ''
+  const diffMs = Date.now() - then
+  const mins = Math.round(diffMs / 60000)
+  if (mins < 1) return 'just now'
+  if (mins < 60) return `${mins}m ago`
+  const hours = Math.round(mins / 60)
+  if (hours < 24) return `${hours}h ago`
+  const days = Math.round(hours / 24)
+  if (days < 14) return `${days}d ago`
+  const weeks = Math.round(days / 7)
+  if (weeks < 8) return `${weeks}w ago`
+  const months = Math.round(days / 30)
+  return `${months}mo ago`
+}
+
 function FilmCard({ film }) {
   if (!film) return null
   return (
@@ -540,6 +558,67 @@ function BookCard({ book, currentlyReading }) {
   )
 }
 
+function BuildingCard({ events }) {
+  if (!events || events.length === 0) return null
+  const latest = events[0]
+  const rest = events.slice(1, 4)
+  return (
+    <a className="currently-card compact" href={latest.link} target="_blank" rel="noopener noreferrer">
+      <div className="currently-kicker">
+        <span>Building</span>
+        <span>GitHub</span>
+      </div>
+      <div className="currently-compact-body">
+        <div className="currently-compact-lead">
+          <div className="currently-meta">{latest.verb}</div>
+          <h3 className="currently-title">{latest.repoShort}</h3>
+          {latest.detail && <div className="currently-meta">{latest.detail}</div>}
+          <div className="currently-date mono">{relativeTime(latest.createdAt)}</div>
+        </div>
+        {rest.length > 0 && (
+          <ul className="currently-sublist">
+            {rest.map((e) => (
+              <li key={`${e.type}:${e.repo}:${e.createdAt}`}>
+                <span className="mono currently-sublist-verb">{e.verb}</span>
+                <span className="currently-sublist-title">{e.repoShort}</span>
+                <span className="mono currently-sublist-date">{relativeTime(e.createdAt)}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </a>
+  )
+}
+
+function ListeningCard({ lastfm }) {
+  if (!lastfm || lastfm.unconfigured) return null
+  const track = lastfm.nowPlaying || lastfm.recent?.[0]
+  if (!track) return null
+  return (
+    <a className="currently-card" href={track.url || `https://www.last.fm/user/jagjoth2794`} target="_blank" rel="noopener noreferrer">
+      <div className="currently-kicker">
+        <span>{track.nowPlaying ? 'Now playing' : 'Listening'}</span>
+        <span>Last.fm</span>
+      </div>
+      <div className="currently-body">
+        {track.image && <img className="currently-art square" src={track.image} alt={`${track.name} album art`} loading="lazy" />}
+        <div className="currently-text">
+          <h3 className="currently-title">{track.name}</h3>
+          <div className="currently-meta">
+            {track.artist}
+            {track.album && <> · <span style={{ fontStyle: 'italic' }}>{track.album}</span></>}
+          </div>
+          {!track.nowPlaying && track.playedAt && (
+            <div className="currently-date mono">{relativeTime(track.playedAt)}</div>
+          )}
+          {track.nowPlaying && <div className="currently-date mono" style={{ color: 'var(--accent)' }}>● Live</div>}
+        </div>
+      </div>
+    </a>
+  )
+}
+
 function Currently() {
   const film = feeds?.letterboxd?.[0]
   const reading = feeds?.goodreads?.currentlyReading?.[0]
@@ -559,6 +638,8 @@ function Currently() {
       <div className="currently-grid reveal">
         <FilmCard film={film} />
         <BookCard book={book} currentlyReading={Boolean(reading)} />
+        <BuildingCard events={feeds?.github} />
+        <ListeningCard lastfm={feeds?.lastfm} />
       </div>
       {recentFilms.length > 0 && (
         <div className="currently-strip reveal">

@@ -433,6 +433,7 @@ body.motion-high .cursor-ring { transition-duration: .5s; }
 }
 .currently-card:nth-child(odd) { border-right: 1px solid var(--ink); padding-right: 2rem; }
 .currently-card:nth-child(even) { padding-left: 2rem; }
+.currently-card:nth-child(3):last-child { grid-column: 1 / -1; border-right: none; padding-right: 0; }
 .currently-card:hover { background: var(--ink); color: var(--bg); padding-left: 3rem; }
 .currently-card:nth-child(even):hover { padding-left: 3rem; }
 .currently-kicker {
@@ -479,6 +480,31 @@ body.motion-high .cursor-ring { transition-duration: .5s; }
   font-size: 0.7rem;
 }
 .currently-card:hover .currently-date { color: rgba(255, 255, 255, 0.6); }
+
+.currently-art.square { aspect-ratio: 1 / 1; width: 120px; }
+
+.currently-compact-body { display: flex; flex-direction: column; gap: 1.2rem; }
+.currently-compact-lead { display: flex; flex-direction: column; gap: 0.3rem; }
+.currently-compact-lead .currently-title { margin: 0; }
+.currently-compact-lead .currently-meta { margin: 0; }
+.currently-compact-lead .currently-date { margin-top: 0.3rem; }
+.currently-sublist {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 0.5rem;
+  border-top: 1px dashed var(--rule);
+  padding-top: 1rem;
+}
+.currently-card:hover .currently-sublist { border-top-color: rgba(255, 255, 255, 0.2); }
+.currently-sublist li {
+  display: grid; grid-template-columns: 110px 1fr auto; gap: 0.7rem;
+  align-items: baseline;
+  font-size: 0.88rem;
+}
+.currently-sublist-verb { color: var(--ink-3); font-size: 0.65rem; }
+.currently-card:hover .currently-sublist-verb { color: rgba(255, 255, 255, 0.55); }
+.currently-sublist-title { font-family: 'Instrument Serif', serif; font-size: 1.05rem; line-height: 1.1; }
+.currently-sublist-date { color: var(--ink-3); font-size: 0.65rem; }
+.currently-card:hover .currently-sublist-date { color: rgba(255, 255, 255, 0.55); }
 
 .currently-strip {
   margin-top: 2.5rem;
