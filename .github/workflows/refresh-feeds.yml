@@ -1,0 +1,23 @@
+name: Refresh feeds
+
+# Runs at 12:00 PM Pacific every day. GitHub Actions cron is UTC-only —
+# 19:00 UTC = 12:00 PDT (summer); during PST (winter) this fires at 11 AM
+# Pacific. Close enough for a daily rebuild.
+on:
+  schedule:
+    - cron: '0 19 * * *'
+  workflow_dispatch:
+
+jobs:
+  trigger-render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render deploy hook
+        run: |
+          if [ -z "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" ]; then
+            echo "RENDER_DEPLOY_HOOK_URL secret not set; skipping"
+            exit 1
+          fi
+          curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+          echo
+          echo "Render deploy triggered."
