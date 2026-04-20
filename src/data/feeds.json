@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-20T01:57:16.909Z",
+  "fetchedAt": "2026-04-20T02:03:50.287Z",
   "letterboxd": [
     {
       "title": "Rounders",
@@ -196,7 +196,7 @@
       "repoShort": "personal-blog",
       "detail": "",
       "link": "https://github.com/jagjothbhullar/personal-blog",
-      "createdAt": "2026-04-20T01:50:08Z"
+      "createdAt": "2026-04-20T02:01:59Z"
     },
     {
       "type": "push",
@@ -206,15 +206,6 @@
       "detail": "",
       "link": "https://github.com/jagjothbhullar/sharks-highlights",
       "createdAt": "2026-04-09T04:41:21Z"
-    },
-    {
-      "type": "push",
-      "verb": "Pushed to",
-      "repo": "jagjothbhullar/hockey-for-dummies",
-      "repoShort": "hockey-for-dummies",
-      "detail": "",
-      "link": "https://github.com/jagjothbhullar/hockey-for-dummies",
-      "createdAt": "2026-03-27T02:10:03Z"
     }
   ],
   "lastfm": {

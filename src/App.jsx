@@ -624,6 +624,32 @@ function Currently() {
   const lastRead = feeds?.goodreads?.read?.[0]
   const book = reading || lastRead
   const recentFilms = (feeds?.letterboxd || []).slice(1, 4)
+  const shownBookLink = book?.link
+  const lastFinishedBook = (feeds?.goodreads?.read || []).find((b) => b.link && b.link !== shownBookLink)
+  const listeningTrackUrl = (feeds?.lastfm?.nowPlaying || feeds?.lastfm?.recent?.[0])?.url
+  const previousTrack = (feeds?.lastfm?.recent || []).find((t) => t.url && t.url !== listeningTrackUrl)
+
+  const alsoItems = [
+    ...recentFilms.map((f) => ({
+      key: f.link,
+      link: f.link,
+      title: f.title,
+      meta: `${f.year}${f.rating ? ` · ${stars(f.rating)}` : ''}`,
+    })),
+    lastFinishedBook && {
+      key: lastFinishedBook.link,
+      link: lastFinishedBook.link,
+      title: lastFinishedBook.title,
+      meta: lastFinishedBook.author + (Number(lastFinishedBook.rating) > 0 ? ` · ${stars(lastFinishedBook.rating)}` : ''),
+    },
+    previousTrack && {
+      key: previousTrack.url,
+      link: previousTrack.url,
+      title: previousTrack.name,
+      meta: previousTrack.artist + (previousTrack.album ? ` · ${previousTrack.album}` : ''),
+    },
+  ].filter(Boolean)
+
   return (
     <section className="section" id="currently">
       <div className="big-numeral" aria-hidden="true">06</div>
@@ -640,17 +666,15 @@ function Currently() {
         <BuildingCard events={feeds?.github} />
         <ListeningCard lastfm={feeds?.lastfm} />
       </div>
-      {recentFilms.length > 0 && (
+      {alsoItems.length > 0 && (
         <div className="currently-strip reveal">
           <div className="mono currently-strip-label">Also recently</div>
           <ul className="currently-strip-list">
-            {recentFilms.map((f) => (
-              <li key={f.link}>
-                <a href={f.link} target="_blank" rel="noopener noreferrer">
-                  <span className="currently-strip-title">{f.title}</span>
-                  <span className="currently-strip-meta mono">
-                    {f.year}{f.rating ? ` · ${stars(f.rating)}` : ''}
-                  </span>
+            {alsoItems.map((it) => (
+              <li key={it.key}>
+                <a href={it.link} target="_blank" rel="noopener noreferrer">
+                  <span className="currently-strip-title">{it.title}</span>
+                  <span className="currently-strip-meta mono">{it.meta}</span>
                 </a>
               </li>
             ))}
