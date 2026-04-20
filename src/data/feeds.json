@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-20T01:49:30.674Z",
+  "fetchedAt": "2026-04-20T01:57:16.909Z",
   "letterboxd": [
     {
       "title": "Rounders",
@@ -196,7 +196,7 @@
       "repoShort": "personal-blog",
       "detail": "",
       "link": "https://github.com/jagjothbhullar/personal-blog",
-      "createdAt": "2026-04-20T01:28:57Z"
+      "createdAt": "2026-04-20T01:50:08Z"
     },
     {
       "type": "push",
@@ -218,8 +218,62 @@
     }
   ],
   "lastfm": {
-    "unconfigured": true,
-    "recent": [],
+    "recent": [
+      {
+        "name": "SPEED DEMON",
+        "artist": "Justin Bieber",
+        "album": "SWAG II",
+        "image": "https://lastfm.freetls.fastly.net/i/u/174s/19906a6c864b374ec3f9f30b2eb9a28b.png",
+        "url": "https://www.last.fm/music/Justin+Bieber/_/SPEED+DEMON",
+        "nowPlaying": false,
+        "playedAt": "2026-04-19T21:49:00.000Z"
+      },
+      {
+        "name": "One Less Lonely Girl",
+        "artist": "Justin Bieber",
+        "album": "My World",
+        "image": "https://lastfm.freetls.fastly.net/i/u/174s/a457062cd73ef1170ab0fd4b675cf477.jpg",
+        "url": "https://www.last.fm/music/Justin+Bieber/_/One+Less+Lonely+Girl",
+        "nowPlaying": false,
+        "playedAt": "2026-04-19T21:14:57.000Z"
+      },
+      {
+        "name": "U Smile",
+        "artist": "Justin Bieber",
+        "album": "My World 2.0",
+        "image": "https://lastfm.freetls.fastly.net/i/u/174s/cc2b72b088bdc3beb0cdb7636fbe02bb.png",
+        "url": "https://www.last.fm/music/Justin+Bieber/_/U+Smile",
+        "nowPlaying": false,
+        "playedAt": "2026-04-19T21:08:18.000Z"
+      },
+      {
+        "name": "One Time",
+        "artist": "Justin Bieber",
+        "album": "My World",
+        "image": "https://lastfm.freetls.fastly.net/i/u/174s/a457062cd73ef1170ab0fd4b675cf477.jpg",
+        "url": "https://www.last.fm/music/Justin+Bieber/_/One+Time",
+        "nowPlaying": false,
+        "playedAt": "2026-04-19T21:05:10.000Z"
+      },
+      {
+        "name": "EVERYTHING HALLELUJAH",
+        "artist": "Justin Bieber",
+        "album": "SWAG II",
+        "image": "https://lastfm.freetls.fastly.net/i/u/174s/19906a6c864b374ec3f9f30b2eb9a28b.png",
+        "url": "https://www.last.fm/music/Justin+Bieber/_/EVERYTHING+HALLELUJAH",
+        "nowPlaying": false,
+        "playedAt": "2026-04-19T21:01:53.000Z"
+      },
+      {
+        "name": "GLORY VOICE MEMO",
+        "artist": "Justin Bieber",
+        "album": "SWAG",
+        "image": "https://lastfm.freetls.fastly.net/i/u/174s/4255e1d33c6a0b62f08ea96890caa407.jpg",
+        "url": "https://www.last.fm/music/Justin+Bieber/_/GLORY+VOICE+MEMO",
+        "nowPlaying": false,
+        "playedAt": "2026-04-19T20:57:21.000Z"
+      }
+    ],
     "nowPlaying": null
   }
 }

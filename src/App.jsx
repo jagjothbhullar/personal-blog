@@ -632,7 +632,7 @@ function Currently() {
         <div className="section-num">§ 06 · Currently</div>
         <div>
           <h2 className="section-title">What I&rsquo;m <em>into.</em></h2>
-          <p className="section-sub">A running feed from Letterboxd and Goodreads — the latest film I watched and the book I&rsquo;m reading.</p>
+          <p className="section-sub">A running feed from Letterboxd, Goodreads, GitHub and Last.fm — films, books, code, and what&rsquo;s in my headphones.</p>
         </div>
       </div>
       <div className="currently-grid reveal">
@@ -709,7 +709,7 @@ function Contact() {
         </div>
         <div>
           <div className="label">LinkedIn</div>
-          <a href="https://www.linkedin.com/in/jagjothbhullar" target="_blank" rel="noopener noreferrer">/in/jagjothbhullar</a>
+          <a href="https://www.linkedin.com/in/jagjoth-bhullar" target="_blank" rel="noopener noreferrer">/in/jagjoth-bhullar</a>
         </div>
         <div>
           <div className="label">Resume</div>
